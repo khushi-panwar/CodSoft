@@ -26,7 +26,12 @@ public class MyFrame extends JFrame {
     ButtonListener2 buttonListener2;
     ButtonListener3 buttonListener3;
 
-    int rand = (int) (Math.random() * (100 - 1 + 1) - 1);
+    // define the range
+    int max = 100;
+    int min = 1;
+    int range = max - min + 1;
+
+    int rand = (int) (Math.random() * (range) + min);
     int count = 0;// for the result
     int attempts = 0;// for counting the number of attempts
     int maxLimit; // for maxLimit & Ooption (want to play again)
@@ -78,7 +83,7 @@ public class MyFrame extends JFrame {
         // instancing the JButtons
         button1 = new JButton("Guess");
         button2 = new JButton("Play Again");
-        button3 = new JButton("Quit");
+        button3 = new JButton("Exit");
 
         // let's set the location and size of buttons & color
         button1.setBounds(120, 300, 100, 30);
@@ -90,9 +95,9 @@ public class MyFrame extends JFrame {
         buttonListener = new ButtonListener();
         button1.addActionListener(buttonListener);
         // Bind the Enter key to the custom action for the button
-        button1.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),   "enterAction");
+        button1.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
+                "enterAction");
         button1.getActionMap().put("enterAction", enterAction);
-
 
         button2.setBounds(50, 350, 100, 30);
         button2.setBorder(BorderFactory.createEtchedBorder());// set border
@@ -113,7 +118,7 @@ public class MyFrame extends JFrame {
         button3.addActionListener(buttonListener3);
 
         // note
-        Note = new JLabel("NOTE: You have 3 attempts only !");
+        Note = new JLabel("NOTE: You have 10 attempts only !");
         Note.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
         Note.setForeground(Color.RED);
         Note.setBounds(10, 420, 300, 30);
@@ -163,7 +168,7 @@ public class MyFrame extends JFrame {
                 JOptionPane.showOptionDialog(null, "Please enter valid input (numbers only) ", "warning",
                         JOptionPane.CLOSED_OPTION, JOptionPane.WARNING_MESSAGE, icon2, null, 0);
             }
-            if (attempts == 10) {
+            if (attempts > 10) {
                 ImageIcon icon3 = new ImageIcon("Task_1/Images/limitation.png");
                 maxLimit = JOptionPane.showOptionDialog(null,
                         "You have reached maximum limit of guesses! Want to play again?", "Max Limit",
@@ -196,16 +201,13 @@ public class MyFrame extends JFrame {
             rand = (int) (Math.random() * 100);
             count = 0;
             attempts = 0;
-            System.out.println(rand);
+            correctGuess = 0;
         }
     }
 
     // for quiting the game
     private class ButtonListener3 implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            ImageIcon icon4 = new ImageIcon("Task_1/Images/cry.png");
-            JOptionPane.showOptionDialog(null, "The correct answer was " + rand + " !!", "Info",
-                    JOptionPane.CLOSED_OPTION, JOptionPane.WARNING_MESSAGE, icon4, null, 0);
             System.exit(0);
         }
     }
@@ -214,8 +216,8 @@ public class MyFrame extends JFrame {
     Action enterAction = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent f) {
-          ButtonListener action = new ButtonListener(); 
-          action.actionPerformed(f); 
+            ButtonListener action = new ButtonListener();
+            action.actionPerformed(f);
         }
     };
 
